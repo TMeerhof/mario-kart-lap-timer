@@ -72,15 +72,22 @@ export function stopListening(req: Request, res: Response, next: NextFunction) {
   res.send("ok");
 }
 
+function rand(array: any[]) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
 export function mockRX(host: string, number: number) {
   return Observable.create((observer: Observer<WayPointEvent>) => {
-    timer(0, Math.random() * 10000).subscribe(() => {
+    const sub = timer(0, Math.random() * 1000).subscribe(() => {
       observer.next({
         waypoint: number,
-        car: 28,
+        car: rand([26, 27, 1, 34]),
         ts: Date.now()
       });
     });
+    return () => {
+      sub.unsubscribe();
+    };
   });
 }
 

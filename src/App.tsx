@@ -3,12 +3,25 @@ import "./App.css";
 import io from "socket.io-client";
 import { Race, RaceCar, WayPointEvent } from "../types";
 import { timer } from "rxjs";
+import mario from "./assets/mario.png";
+import peach from "./assets/peach.png";
+import bowser from "./assets/bowser.png";
+import luigi from "./assets/luigi.png";
+
+const images = {
+  mario,
+  peach,
+  bowser,
+  luigi
+};
+console.log(mario);
 
 interface Props {}
 interface State {
   race: Race | undefined;
   listening: boolean;
 }
+
 const socket = io.connect("http://localhost:5000");
 
 class App extends Component<Props, State> {
@@ -106,10 +119,21 @@ const Main: React.FC<{ race: Race }> = ({ race }) => {
       <div className="leaderBoard">
         {sortCars(race.cars).map(car => {
           return (
-            <div key={car.name}>
-              name: {car.name} laps: {car.laps} currentWaypoint:
-              {car.currentWaypoint}
-              time: <LapTimer events={car.events} />
+            <div key={car.name} className="row">
+              <div
+                className="icon"
+                style={{
+                  backgroundImage: `url(${images[car.name]})`
+                }}
+              />
+              <div className="data">{car.name}</div>
+              <div className="data"> laps: {car.laps}</div>
+              <div className="data">
+                currentWaypoint: {car.currentWaypoint}{" "}
+              </div>
+              <div className="data big">
+                <LapTimer events={car.events} />
+              </div>
             </div>
           );
         })}
@@ -123,7 +147,7 @@ function formatTime(ts: number) {
   const elapsed = now - ts;
   const ms = elapsed % 1000;
   const sec = Math.ceil(elapsed / 1000);
-  return `${sec}.${ms}`;
+  return `${sec}.${ms.toString().padStart(3, "0")}`;
 }
 
 const LapTimer: React.FC<{ events: WayPointEvent[] }> = ({ events }) => {
@@ -131,7 +155,10 @@ const LapTimer: React.FC<{ events: WayPointEvent[] }> = ({ events }) => {
   useEffect(() => {
     const beginOfRace = events.find(e => e.waypoint === 1);
     const beginOfLap = [...events].reverse().find(e => e.waypoint === 1);
-    if (!beginOfLap || !beginOfRace) return () => {};
+    if (!beginOfLap || !beginOfRace) {
+      setTime("");
+      return () => {};
+    }
 
     const sub = timer(0, 90).subscribe(() => {
       const now = Date.now();
