@@ -68,7 +68,7 @@ class App extends Component<Props, State> {
         <button onClick={this.startListening}>Listen</button>
         <button onClick={this.stopListening}>Stop listen</button>
         <p>
-          {[28, 34].map(car => (
+          {[26, 27, 1, 2].map(car => (
             <div>
               {[1, 2, 3, 4].map(wp => {
                 return (

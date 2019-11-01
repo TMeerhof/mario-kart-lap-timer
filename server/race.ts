@@ -19,12 +19,22 @@ function emptyRace(totalLaps: number = 3): Race {
     cars: [
       {
         name: "mario",
+        number: 27,
+        ...base()
+      },
+      {
+        name: "peach",
         number: 26,
         ...base()
       },
       {
-        name: "lugie",
+        name: "bowser",
         number: 34,
+        ...base()
+      },
+      {
+        name: "luigi",
+        number: 1,
         ...base()
       }
     ]
