@@ -81,7 +81,7 @@ class App extends Component<Props, State> {
         <button onClick={this.startListening}>Listen</button>
         <button onClick={this.stopListening}>Stop listen</button>
         <p>
-          {[26, 27, 1, 2].map(car => (
+          {[26, 27, 1, 34].map(car => (
             <div>
               {[1, 2, 3, 4].map(wp => {
                 return (
@@ -105,7 +105,14 @@ export default App;
 
 function sortCars(cars: RaceCar[]): RaceCar[] {
   return cars.sort((a, b) => {
-    if (b.laps - a.laps) {
+    if (b.laps === a.laps) {
+      if (b.currentWaypoint === a.currentWaypoint) {
+        return (
+          a.events[a.events.length + 1] &&
+          b.events[b.events.length + 1] &&
+          b.events[b.events.length + 1].ts - a.events[a.events.length + 1].ts
+        );
+      }
       return b.currentWaypoint - a.currentWaypoint;
     }
     return b.laps - a.laps;
