@@ -5,6 +5,7 @@ import peach from "../assets/peach.png";
 import bowser from "../assets/bowser.png";
 import luigi from "../assets/luigi.png";
 import { timer } from "rxjs";
+import { race } from "q";
 
 const images = {
   mario,
@@ -16,11 +17,13 @@ const images = {
 interface Props {
   car: RaceCar;
   totalLaps: number;
+  position: number;
 }
 
-const CarRow: React.FC<Props> = ({ car }) => {
+const CarRow: React.FC<Props> = ({ car, totalLaps, position }) => {
   return (
     <div key={car.name} className="row">
+      <div className="position">{position}</div>
       <div
         className="icon"
         style={{
@@ -28,8 +31,10 @@ const CarRow: React.FC<Props> = ({ car }) => {
         }}
       />
       <div className="data">{car.name}</div>
-      <div className="data"> laps: {car.laps}</div>
-      <div className="data">currentWaypoint: {car.currentWaypoint} </div>
+      <div className="data">
+        {car.laps} / {totalLaps}
+      </div>
+      <div className="data">waypoint: {car.currentWaypoint} </div>
       <div className="data big">
         <LapTimer events={car.events} />
       </div>

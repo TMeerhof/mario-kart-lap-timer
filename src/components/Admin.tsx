@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Race } from "../../types";
+import React from "react";
 
 interface Props {
   race: Race;

@@ -34,15 +34,15 @@ export function expressMock(req: Request, res: Response, next: NextFunction) {
 
 let subs: Subscription[] = [];
 
-// const waypoints = ["waypoint1.local", "waypoint2.local", "waypoint3.local"];
-const waypoints = ["waypoint1.local"];
+const waypoints = ["waypoint1.local", "waypoint2.local", "waypoint3.local"];
+// const waypoints = ["waypoint1.local"];
 export function startListening(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   subs = waypoints.map((host, i) => {
-    return observeWaypoint(host, i + 1)
+    return mockRX(host, i + 1)
       .pipe(backoff(500, 500))
       .subscribe(events);
   });
@@ -78,7 +78,7 @@ function rand(array: any[]) {
 
 export function mockRX(host: string, number: number) {
   return Observable.create((observer: Observer<WayPointEvent>) => {
-    const sub = timer(0, Math.random() * 1000).subscribe(() => {
+    const sub = timer(0, Math.random() * 4000).subscribe(() => {
       observer.next({
         waypoint: number,
         car: rand([26, 27, 1, 34]),
