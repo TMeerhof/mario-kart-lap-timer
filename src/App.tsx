@@ -7,6 +7,7 @@ import Adm from "./components/Admin";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Admin from "./components/Admin";
 import Main from "./components/Main";
+import "./assets/Nintend-Bold.otf";
 
 interface Props {}
 interface State {

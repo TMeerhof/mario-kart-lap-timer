@@ -7,6 +7,7 @@ const Main: React.FC<{ race: Race }> = ({ race }) => {
   return (
     <div className="main">
       <div className="screen">
+        <div className="title">Mario KartOn</div>
         <div className="leaderBoard">
           {sortCars(race.cars).map((car, i) => (
             <CarRow
