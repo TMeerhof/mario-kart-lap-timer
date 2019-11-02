@@ -22,7 +22,7 @@ interface Props {
 
 const CarRow: React.FC<Props> = ({ car, totalLaps, position }) => {
   return (
-    <div key={car.name} className="row">
+    <div key={car.name} className={`row position-${position}`}>
       <div className="position">{position}</div>
       <div
         className="icon"

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Race, RaceCar } from "../../types";
 import CarRow from "./CarRow";
+import AudioPlayer from "./AudioPlayer";
 import "./Main.css";
+import mario from "../assets/Mario1.png";
+import karton from "../assets/Karton.png";
 
 const Main: React.FC<{ race: Race }> = ({ race }) => {
   return (
     <div className="main">
+      {/* <AudioPlayer effect={"start"} music={false} /> */}
       <div className="screen">
-        <div className="title">Mario KartOn</div>
+        <div className="title">
+          <img className="mario" src={mario} />
+          <img className="karton" src={karton} />
+        </div>
         <div className="leaderBoard">
           {sortCars(race.cars).map((car, i) => (
             <CarRow
