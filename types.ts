@@ -5,6 +5,7 @@ export interface WayPointEvent {
 }
 
 export interface Race {
+  ts: number;
   totalLaps: number;
   cars: RaceCar[];
 }

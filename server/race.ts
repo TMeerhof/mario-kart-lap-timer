@@ -16,6 +16,7 @@ function emptyRace(totalLaps: number = 3): Race {
   }
   return {
     totalLaps,
+    ts: Date.now(),
     cars: [
       {
         name: "mario",

@@ -9,7 +9,7 @@ import karton from "../assets/Karton.png";
 const Main: React.FC<{ race: Race }> = ({ race }) => {
   return (
     <div className="main">
-      {/* <AudioPlayer effect={"start"} music={false} /> */}
+      <AudioPlayer race={race} />
       <div className="screen">
         <div className="title">
           <img className="mario" src={mario} />
@@ -36,11 +36,12 @@ function sortCars(cars: RaceCar[]): RaceCar[] {
   return cars.sort((a, b) => {
     if (b.laps === a.laps) {
       if (b.currentWaypoint === a.currentWaypoint) {
-        return (
+        const tsCompare =
           a.events[a.events.length + 1] &&
           b.events[b.events.length + 1] &&
-          b.events[b.events.length + 1].ts + a.events[a.events.length + 1].ts
-        );
+          b.events[b.events.length + 1].ts + a.events[a.events.length + 1].ts;
+        console.log(tsCompare);
+        return tsCompare;
       }
       return b.currentWaypoint - a.currentWaypoint;
     }
