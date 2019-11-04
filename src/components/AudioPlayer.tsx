@@ -11,7 +11,7 @@ export enum PlayStatus {
 
 const wayPointStart = async () => {
   carNumbers.forEach(num => {
-    fetch(`/api/mock/1/${num}`, {
+    fetch(`http://10.70.16.47:5000/api/mock/1/${num}`, {
       method: "get"
     });
   });

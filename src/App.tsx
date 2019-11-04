@@ -15,7 +15,7 @@ interface State {
   listening: boolean;
 }
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://10.70.16.47:5000");
 
 class App extends Component<Props, State> {
   constructor(props: Props) {

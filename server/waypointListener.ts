@@ -91,43 +91,43 @@ export function mockRX(host: string, number: number) {
   });
 }
 
-export function observeWaypoint(
-  host: string,
-  number: number
-): Observable<WayPointEvent> {
-  return Observable.create((observer: Observer<WayPointEvent>) => {
-    const client = net.createConnection({
-      port: 3007,
-      host: host
-    });
+// export function observeWaypoint(
+//   host: string,
+//   number: number
+// ): Observable<WayPointEvent> {
+//   return Observable.create((observer: Observer<WayPointEvent>) => {
+//     const client = net.createConnection({
+//       port: 3007,
+//       host: host
+//     });
 
-    client.on("connect", () => {
-      console.log("connected");
-    });
+//     client.on("connect", () => {
+//       console.log("connected");
+//     });
 
-    client.on("data", function(data) {
-      const msg = data.toString().split(" ");
-      console.log("Received: " + data);
-      observer.next({
-        waypoint: number,
-        car: parseInt(msg[1]),
-        ts: Date.now()
-      });
-    });
+//     client.on("data", function(data) {
+//       const msg = data.toString().split(" ");
+//       console.log("Received: " + data);
+//       observer.next({
+//         waypoint: number,
+//         car: parseInt(msg[1]),
+//         ts: Date.now()
+//       });
+//     });
 
-    client.on("error", e => {
-      console.error(e);
-      observer.error(e);
-    });
+//     client.on("error", e => {
+//       console.error(e);
+//       observer.error(e);
+//     });
 
-    client.on("close", function() {
-      console.log("Connection closed", arguments);
-      // client.destroy();
-      observer.error(new Error("unexpected close"));
-    });
-    return () => {
-      console.log("disconnecting");
-      client.destroy();
-    };
-  });
-}
+//     client.on("close", function() {
+//       console.log("Connection closed", arguments);
+//       // client.destroy();
+//       observer.error(new Error("unexpected close"));
+//     });
+//     return () => {
+//       console.log("disconnecting");
+//       client.destroy();
+//     };
+//   });
+// }

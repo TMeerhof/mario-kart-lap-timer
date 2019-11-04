@@ -21,6 +21,8 @@ interface Props {
 }
 
 const CarRow: React.FC<Props> = ({ car, totalLaps, position }) => {
+  const finsihed = car.laps > 1;
+
   return (
     <div key={car.name} className={`row position-${position}`}>
       <div className="position">{position}</div>
@@ -32,11 +34,23 @@ const CarRow: React.FC<Props> = ({ car, totalLaps, position }) => {
       />
       <div className="data">{car.name}</div>
       <div className="data">
-        {car.laps} / {totalLaps}
+        {finsihed ? (
+          <span className="finished">FINISH</span>
+        ) : (
+          <span>
+            {car.laps + 1} / {totalLaps}
+          </span>
+        )}
       </div>
-      <div className="data">waypoint: {car.currentWaypoint} </div>
+      <div className="data">
+        {!finsihed && <span> waypoint: {car.currentWaypoint} </span>}
+      </div>
       <div className="data big">
-        <LapTimer events={car.events} />
+        {finsihed ? (
+          <div className="timer">{finishtime(car)}</div>
+        ) : (
+          <LapTimer events={car.events} />
+        )}
       </div>
     </div>
   );
@@ -44,12 +58,18 @@ const CarRow: React.FC<Props> = ({ car, totalLaps, position }) => {
 
 export default CarRow;
 
-function formatTime(ts: number) {
-  const now = Date.now();
-  const elapsed = now - ts;
+function formatTime(ts: number, ts2: number) {
+  const elapsed = ts2 - ts;
   const ms = elapsed % 1000;
   const sec = Math.ceil(elapsed / 1000);
   return `${sec}.${ms.toString().padStart(3, "0")}`;
+}
+
+function finishtime(car: RaceCar) {
+  if (car.laps < 2) return "";
+  const start = car.events[0].ts;
+  const last = car.events[6].ts;
+  return formatTime(start, last);
 }
 
 const LapTimer: React.FC<{ events: WayPointEvent[] }> = ({ events }) => {
@@ -68,7 +88,10 @@ const LapTimer: React.FC<{ events: WayPointEvent[] }> = ({ events }) => {
       const ms = elapsed % 1000;
       const sec = Math.ceil(elapsed / 1000);
       setTime(
-        `race: ${formatTime(beginOfRace.ts)}, lap: ${formatTime(beginOfLap.ts)}`
+        `race: ${formatTime(beginOfRace.ts, now)}, lap: ${formatTime(
+          beginOfLap.ts,
+          now
+        )}`
       );
     });
     return () => {

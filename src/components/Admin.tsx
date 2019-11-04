@@ -6,10 +6,24 @@ interface Props {
   race: Race;
 }
 
+const numbers = {
+  mario: 27,
+  peach: 26,
+  bowser: 34,
+  luigi: 1
+};
+
+const names = Object.keys(numbers);
+
 const Admin: React.FC<Props> = ({ race }) => {
   const [listening, setListening] = useState(false);
   const resetRace = async () => {
-    const response = await fetch("/api/start/3/2", {
+    const response = await fetch("http://10.70.16.47:5000/api/start/3/2", {
+      method: "post"
+    });
+  };
+  const stopRace = async () => {
+    const response = await fetch("/api/stop", {
       method: "post"
     });
   };
@@ -30,9 +44,12 @@ const Admin: React.FC<Props> = ({ race }) => {
     }
   };
   const waypoint = async (car: number, waypoint: number) => {
-    const response = await fetch(`/api/mock/${waypoint}/${car}`, {
-      method: "get"
-    });
+    const response = await fetch(
+      `http://10.70.16.47:5000/api/mock/${waypoint}/${car}`,
+      {
+        method: "get"
+      }
+    );
   };
   return (
     <div>
@@ -42,12 +59,15 @@ const Admin: React.FC<Props> = ({ race }) => {
       <button onClick={startListening}>Listen</button>
       <button onClick={stopListening}>Stop listen</button>
       <p>
-        {[26, 27, 1, 34].map(car => (
+        {names.map(name => (
           <div>
-            {[1, 2, 3, 4].map(wp => {
+            {[1, 2, 3].map(wp => {
               return (
-                <button key={`${wp}-${car}`} onClick={() => waypoint(car, wp)}>
-                  {car} - {wp}
+                <button
+                  key={`wp-${wp}-${name}`}
+                  onClick={() => waypoint(numbers[name], wp)}
+                >
+                  {name} - {wp}
                 </button>
               );
             })}

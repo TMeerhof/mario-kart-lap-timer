@@ -6,7 +6,7 @@ const raceDone = new Subject();
 
 export const race = new ReplaySubject<Race>();
 
-function emptyRace(totalLaps: number = 3): Race {
+function emptyRace(totalLaps: number = 2): Race {
   function base() {
     return {
       currentWaypoint: 0,
@@ -15,7 +15,7 @@ function emptyRace(totalLaps: number = 3): Race {
     };
   }
   return {
-    totalLaps,
+    totalLaps: 2,
     ts: Date.now(),
     cars: [
       {
@@ -44,7 +44,6 @@ function emptyRace(totalLaps: number = 3): Race {
 
 let currentRace: Race;
 
-interface RaceData {}
 export function startNewRace(
   eventStream: Subject<WayPointEvent>,
   totalLaps: number,
@@ -63,7 +62,6 @@ function updateRace() {
 }
 
 function parseEvent(event: WayPointEvent) {
-  console.log(event);
   const car = getCar(event.car);
   if (!car || event.waypoint > numberOfWaypoints || event.waypoint < 1) {
     return;

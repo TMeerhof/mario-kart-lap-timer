@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 startNewRace(events, 3, 2);
 
-const io = socketIO(server);
+const io = socketIO(server, { origins: "*:*" });
 
 app.get("/api/mock/:waypoint/:car", expressMock);
 app.post("/api/listen", startListening);
